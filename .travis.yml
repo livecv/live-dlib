@@ -1,0 +1,105 @@
+language: cpp
+
+os:
+  - osx
+  - linux
+
+sudo: required
+dist: trusty
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-5
+      - g++-5
+      - build-essential
+      - cmake
+      - cmake-data
+      - git
+      - libgtk2.0-dev
+      - pkg-config
+      - libavcodec-dev
+      - libavformat-dev
+      - libswscale-dev
+      - python-dev
+      - python-numpy
+      - libtbb2
+      - libtbb-dev
+      - libjpeg-dev
+      - libpng-dev
+      - libjasper-dev
+      - libdc1394-22-dev
+      - libgl1-mesa-dev
+      - unzip
+
+install:
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      brew update;
+      brew install python3;
+      sudo mkdir /opt/qt;
+      sudo chmod 777 /opt/qt;
+      sudo ln -s /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild /Applications/Xcode.app/Contents/Developer/usr/bin/xcrun;
+      rm -r '/usr/local/lib/python2.7/site-packages/numpy';
+      rm '/usr/local/bin/f2py';
+      brew install numpy;
+      brew info opencv3;
+      brew install opencv3;
+      ls /usr/local/Cellar/opencv;
+      OPENCV_VERSION="$(ls -1 /usr/local/Cellar/opencv)";
+      echo $OPENCV_VERSION;
+      export OPENCV_DIR=/usr/local/Cellar/opencv/$OPENCV_VERSION;
+      echo $OPENCV_DIR;
+      echo $PWD;
+      brew install dlib
+      cd build;
+      wget https://github.com/livecv/live-pm/archive/master.zip;
+      unzip master.zip;
+      mv live-pm-master/* .;
+      wget http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-mac-x64-clang-5.7.1.dmg;
+      ls;
+      hdiutil attach -mountpoint installqt qt-opensource-mac-x64-clang-5.7.1.dmg;
+      ./installqt/qt-opensource-mac-x64-clang-5.7.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.7.1 --script resources/install-qt-macos.qs --verbose --silent -platform minimal;
+      ls /opt/qt/5.7/clang_64;
+      export QTDIR=/opt/qt/5.7/clang_64;
+    fi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo apt-get install -y libtiff5 libtiff5-dev;
+      git clone https://github.com/Itseez/opencv.git;
+      cd opencv;
+      mkdir build;
+      cd build;
+      cmake ..;
+      make -j8;
+      sudo make -j8 install;
+      export OPENCV_DIR=/usr/local/lib;
+      cd ../..;
+      git clone https://github.com/davisking/dlib.git;
+      cd dlib;
+      mkdir build;
+      cd build;
+      cmake ..;
+      cmake --build . --config Release;
+      sudo make install;
+      sudo ldconfig;
+      cd ../..;
+      ls;
+      cd build;
+      wget https://github.com/livecv/live-pm/archive/master.zip;
+      unzip master.zip;
+      mv live-pm-master/* .;
+      wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x64-5.7.0.run;
+      sudo chmod 777 qt-opensource-linux-x64-5.7.0.run;
+      ./qt-opensource-linux-x64-5.7.0.run --script resources/install-qt.qs --verbose --silent -platform minimal;
+      export QTDIR=/opt/qt/5.7/gcc_64;
+    fi
+
+script:
+  - ls
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then python3 livepm/main.py build .. macos_clang_64; fi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then python3 livepm/main.py build .. gcc_64; fi
+  - find .
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then python3 livepm/main.py deploy .. macos_clang_64; fi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then python3 livepm/main.py deploy .. gcc_64; fi
+  - ls

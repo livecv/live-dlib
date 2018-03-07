@@ -1,0 +1,79 @@
+{
+    "version" : "1.0.0",
+    "name": "dlib",
+    "webpage": "http://livecv.dinusv.com",
+    "dependencies" : [
+        {
+            "name": "livecv",
+            "version": "1.5.0",
+            "repository": "https://github.com/livecv/livecv.git"
+        }
+    ],
+    "components" : {
+        "dlib" : {
+            "version" : "1.0.0"
+        }
+    },
+    "releases" : {
+        "gcc_64" : {
+            "compiler" : "gcc_64",
+            "environment" : {
+                "OPENCV_DIR" : "opencv_dir",
+                "QTDIR" : "qtdir"
+            },
+            "build" : [
+                {"qmake" : ["-recursive"]},
+                {"make" : []}
+            ],
+            "deploy" : [
+                { "copy" : {
+                    "{release}/bin/dlib/qmldir" : "-",
+                    "{release}/bin/dlib/*.so" : "-",
+                    "{release}/bin/dlib/*.qml" : "-",
+                    "{source}/samples" : "-"
+                }}
+            ]
+        },
+        "msvc2015_64" : {
+            "compiler" : "msvc2015_64",
+            "environment" : {
+                "OPENCV_DIR" : "opencv_dir",
+                "QTDIR" : "qtdir",
+                "dlib_DIR": "dlib_dir",
+                "VS120COMNTOOLS": "vs120comntools"
+            },
+            "build" : [
+                {"qmake" : ["-recursive"]},
+                {"nmake" : []}
+            ],
+            "deploy" : [
+                { "copy" : {
+                    "{release}/bin/dlib/qmldir" : "-",
+                    "{release}/bin/dlib/*.dll" : "-",
+                    "{release}/bin/dlib/*.qml" : "-",
+                    "{release}/bin/dlib/dev/*.lib" : "dev/-",
+                    "{source}/samples" : "-"
+                }}
+            ]
+        },
+        "macos_clang_64" : {
+            "compiler" : "clang_64",
+            "environment" : {
+                "OPENCV_DIR" : "opencv_dir",
+                "QTDIR" : "qtdir"
+            },
+            "build" : [
+                {"qmake" : ["-recursive"]},
+                {"make" : []}
+            ],
+            "deploy" : [
+                { "copy" : {
+                    "{release}/bin/dlib/qmldir" : "-",
+                    "{release}/bin/dlib/*.dylib" : "-",
+                    "{release}/bin/dlib/*.qml" : "-",
+                    "{source}/samples" : "-"
+                }}
+            ]
+        }
+    }
+}
