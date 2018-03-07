@@ -21,6 +21,8 @@ before_build:
   - CD %APP_PATH%
   - SET OPENCV_DIR=%OPENCV_ROOT_PATH%\build\%ARCH%\vc14
   - SET QTDIR=C:\Qt\5.7\msvc2015_64
+  - mkdir external
+  - cd external
   - git clone https://github.com/davisking/dlib.git
   - cd dlib
   - mkdir build
@@ -29,7 +31,8 @@ before_build:
   - cmake --build . --config Release --target INSTALL
   - SET dlib_DIR=%CD%\install\lib\cmake\dlib
   - ls %dlib_DIR%
-  - cd ..
+  - cd ../../..
+  - ls
 
 build_script:
   - cd build

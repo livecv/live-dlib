@@ -75,6 +75,8 @@ install:
       sudo make -j8 install;
       export OPENCV_DIR=/usr/local/lib;
       cd ../..;
+      mkdir external;
+      cd external;
       git clone https://github.com/davisking/dlib.git;
       cd dlib;
       mkdir build;
@@ -83,7 +85,7 @@ install:
       cmake --build . --config Release;
       sudo make install;
       sudo ldconfig;
-      cd ../..;
+      cd ../../..;
       ls;
       cd build;
       wget https://github.com/livecv/live-pm/archive/master.zip;
