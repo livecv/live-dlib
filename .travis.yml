@@ -52,7 +52,7 @@ install:
       export OPENCV_DIR=/usr/local/Cellar/opencv/$OPENCV_VERSION;
       echo $OPENCV_DIR;
       echo $PWD;
-      brew install dlib
+      brew install dlib;
       cd build;
       wget https://github.com/livecv/live-pm/archive/master.zip;
       unzip master.zip;
