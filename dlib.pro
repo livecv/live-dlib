@@ -17,10 +17,10 @@ SUBDIRS += dlib
 ## --- Subdir configurations ---
 dlib.subdir = dlib
 
-exists($$PWD/livecv):equals(BUILD_DEPENDENCIES, true){
-    SUBDIRS += livecv
-    livecv.subdir = $$PWD/livecv
-    dlib.depends = livecv
+exists($$PWD/livekeys):equals(BUILD_DEPENDENCIES, true){
+    SUBDIRS += livekeys
+    livekeys.subdir = $$PWD/livekeys
+    dlib.depends = livekeys
 }
 
 # --- Dependency configuration ---
@@ -29,4 +29,4 @@ exists($$PWD/livecv):equals(BUILD_DEPENDENCIES, true){
 # up in your project
 OTHER_FILES += \
     .qmake.conf \
-    $$LIVECV_DEV_PATH/project/*.pri
+    $$LIVEKEYS_DEV_PATH/project/*.pri
