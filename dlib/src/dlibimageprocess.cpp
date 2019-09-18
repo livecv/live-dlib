@@ -16,11 +16,11 @@ DlibImageProcess::DlibImageProcess(QObject *parent) : QObject(parent)
     try
     {
         // local copy of the "68_landmarks" dat from https://github.com/davisking/dlib-models
-        dlib::deserialize("C:/Users/nenad/OneDrive/Desktop/live-dlib-master/dlib/files/68Landmarks.dat") >> m_shapePredictor;
+        dlib::deserialize("local/path/to/68Landmarks.dat") >> m_shapePredictor;
     }
     catch (std::exception e)
     {
-        qDebug() << e.what();
+        qDebug() << "Add appropriate .dat file for detecting 68 face landmarks";
     }
 }
 
