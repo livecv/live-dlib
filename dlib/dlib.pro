@@ -2,7 +2,7 @@ PLUGIN_NAME = dlib
 PLUGIN_PATH = dlib
 
 ## PLUGIN_NAME and PLUGIN_PATH must be set up prior to including this config file
-include($$LIVECV_DEV_PATH/project/plugin.pri)
+include($$LIVEKEYS_DEV_PATH/project/plugin.pri)
 TARGET = live_dlib
 
 uri = dlib
@@ -14,12 +14,15 @@ DEFINES += Q_LCV
 linkPlugin(live,    live)
 linkPlugin(lcvcore, lcvcore)
 
+linkLibrary(lvbase, lvbase)
+linkLibrary(lvview, lvview)
+
 ## Deploying qml is handled by the plugin.pri configuration
 
 ## Source
 
 include($$PWD/src/dlib.pri)
-include($$LIVECV_DEV_PATH/project/3rdparty/opencv.pri)
+include($$LIVEKEYS_DEV_PATH/project/3rdparty/opencv.pri)
 include($$PROJECT_ROOT/project/3rdparty/dlib.pri)
 
 OTHER_FILES *= \

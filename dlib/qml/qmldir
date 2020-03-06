@@ -1,3 +1,4 @@
 module dlib
 plugin live_dlib
 
+FaceMaskDetection             1.0 FaceMaskDetection.qml
